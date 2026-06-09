@@ -1,0 +1,136 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+
+\lstset{
+  basicstyle=\ttfamily\footnotesize,
+  breaklines=true,
+  frame=single,
+  columns=fullflexible
+}
+
+\begin{document}
+
+\title{Deep Learning - Practical Work}
+
+\author{
+\IEEEauthorblockN{
+João Alves, Tiago Ribeiro, João Fonseca
+}
+\IEEEauthorblockA{
+\textit{MSc Informatics Engineering - Data Engineering}\\
+\textit{Instituto Superior de Engenharia do Porto}\\
+Porto, Portugal\\
+\{1200742, 1201118, 1250522\}@isep.ipp.pt
+}
+}
+
+\maketitle
+
+%------------------------------------------------
+\begin{abstract}
+ ...
+\end{abstract}
+
+\begin{IEEEkeywords}
+ ...
+\end{IEEEkeywords}
+
+%------------------------------------------------
+\section{Introduction}
+
+Deep learning has become a central approach within machine learning due to its ability to learn hierarchical representations directly from raw data, reducing the dependence on manually engineered features \cite{b1}, \cite{b2}. By combining multiple nonlinear processing layers, deep neural networks can progressively transform low-level input patterns into increasingly abstract representations, which has made them particularly effective in domains involving high-dimensional and structured data, such as images, speech, natural language, and temporal sequences \cite{b2}, \cite{b3}. This capability is especially relevant when the underlying data contains spatial or temporal relationships that are difficult to describe through handcrafted rules \cite{b1}, \cite{b4}.
+
+Convolutional Neural Networks (CNNs) are among the most influential deep learning architectures for image recognition and classification \cite{b3}, \cite{b4}. Their effectiveness derives from the use of learnable convolutional filters, local connectivity, and weight sharing, allowing the network to exploit spatial structure while using fewer parameters than equivalent fully connected architectures \cite{b1}, \cite{b4}. Through successive convolutional, activation, pooling, and classification layers, CNNs can learn increasingly complex feature maps, from low-level patterns such as edges and textures to higher-level object-specific representations \cite{b4}, \cite{b5}. The importance of CNNs became especially evident after the success of deep convolutional architectures in large-scale visual recognition benchmarks, where deeper models, GPU-based training, ReLU activations, dropout, and data augmentation contributed to major improvements in image classification performance \cite{b3}. These properties make CNNs suitable for visual classification tasks in which the objective is not only to obtain high predictive performance, but also to evaluate how architectural choices such as filter size, number of filters, stride, padding, pooling strategy, and network depth affect generalization.
+
+In image-based deep learning problems, generalization is strongly influenced by the amount, diversity, and representativeness of the training data \cite{b6}. Data augmentation addresses this limitation by applying label-preserving transformations that increase the variability of the training set without requiring the collection of new annotated samples \cite{b6}. In computer vision, common augmentation strategies include geometric transformations, such as rotation, translation, scaling, cropping, and flipping, as well as photometric transformations, such as brightness, contrast, saturation, blur, and color adjustments \cite{b6}. These transformations can improve robustness to realistic visual variations and reduce overfitting, particularly when the training dataset does not fully cover the expected distribution of test examples \cite{b3}, \cite{b6}. Transfer learning and fine-tuning provide an additional strategy for improving generalization by reusing models pretrained on large datasets and adapting their learned representations to a new, related task \cite{b6}, \cite{b7}.
+
+Recurrent Neural Networks (RNNs), in contrast, are designed for sequential data, where the order of observations carries predictive information \cite{b2}, \cite{b8}. Unlike standard feedforward models, which process fixed-size inputs independently, RNNs maintain a hidden state that evolves over time and allows previous observations to influence later predictions \cite{b8}. This makes recurrent architectures relevant for tasks involving time-dependent patterns, including speech recognition, language modeling, sequence prediction, and time series forecasting \cite{b8}. However, conventional recurrent architectures may struggle to learn long-range temporal dependencies due to vanishing and exploding gradients during backpropagation through time \cite{b9}. Long Short-Term Memory (LSTM) networks were introduced to address this limitation through gated memory mechanisms that regulate the storage, update, and retrieval of information across time steps, enabling more stable learning over longer temporal intervals \cite{b9}. For this reason, LSTMs are commonly used when the predictive target may depend on information distributed across different temporal horizons.
+
+This work investigates these two families of architectures through two complementary experimental problems defined in the practical work statement 
+\cite{b10}. The first task concerns fruit image classification using the Fruits-360 dataset, composed of standardized RGB images of fruit categories captured on a uniform white background \cite{b10}, \cite{b11}. The objective is to design, train, and evaluate CNN-based models while systematically analyzing the impact of different architectural and training choices, including convolutional filter configurations, stride and padding strategies, pooling methods, regularization, data augmentation, and transfer learning using pretrained models such as ResNet50 and MobileNetV2 \cite{b3}, \cite{b6}, \cite{b7}, \cite{b10}. The goal is not only to obtain high classification performance, but also to interpret how each design decision affects accuracy, precision, recall, F1-score, overfitting behavior, and class-level performance \cite{b10}.
+
+The second task addresses 24-hour ahead temperature forecasting using the Jena Climate dataset, a multivariate meteorological time series recorded at 10-minute intervals between 2009 and 2016 \cite{b10}. This problem is used to evaluate the ability of recurrent models to capture temporal dependencies in weather-related variables such as temperature, pressure, humidity, wind speed, wind direction, air density, and solar radiation \cite{b10}. Simple RNN and LSTM models are compared under different input time-window configurations in order to assess how recurrent architecture and temporal context influence forecasting accuracy, robustness, and error behavior \cite{b8}, \cite{b10}. Model performance is evaluated using regression metrics, including the required Root Mean Squared Logarithmic Error (RMSLE), complemented where appropriate by additional error measures such as Mean Absolute Error (MAE) and Root Mean Squared Error (RMSE) \cite{b10}.
+
+The main motivation of this project is to develop an empirical and comparative understanding of how deep learning model design, preprocessing decisions, and validation strategies affect performance across two representative problem classes: image classification and time series forecasting. The adopted methodology includes data preprocessing and normalization, exploratory data analysis, incremental model design, hyperparameter tuning, validation, training curve inspection, metric-based evaluation, overfitting analysis, and comparison between baseline, improved, and pretrained architectures \cite{b10}. Rather than focusing exclusively on a single final model, this work emphasizes experimental comparison and interpretation, aiming to justify the selected techniques and explain the observed results in relation to the architectural and training decisions tested.
+
+The remainder of this paper is organized as follows. Section II presents the related work and theoretical background on CNNs, data augmentation, RNNs, and LSTMs. Section III describes the datasets and preprocessing pipelines. Section IV details the proposed architectures and experimental configurations. Section V presents and discusses the results obtained for both tasks, including metric comparisons, learning curves, convolutional layer visualizations, best- and worst-case examples, and error analysis. Finally, Section VI summarizes the main conclusions and outlines possible directions for future improvement.
+
+
+
+%------------------------------------------------
+\section{Background}
+
+ ...
+
+%------------------------------------------------
+\section{Related Work}
+
+...
+
+%------------------------------------------------
+\section{Problem Statement}
+
+...
+
+%------------------------------------------------
+\section{Discussion}
+
+...
+
+%------------------------------------------------
+\section{Conclusion}
+
+...
+
+%------------------------------------------------
+\begin{thebibliography}{00}
+
+\bibitem{b1}
+M. Vakalopoulou, S. Christodoulidis, N. Burgos, O. Colliot, and V. Lepetit, “Deep Learning: Basics and Convolutional Neural Networks (CNNs),” in Machine Learning for Brain Disorders, 2023.
+
+\bibitem{b2}
+J. Schmidhuber, “Deep learning in neural networks: An overview,” Neural Networks, vol. 61, pp. 85–117, 2015.
+
+\bibitem{b3}
+A. Krizhevsky, I. Sutskever, and G. E. Hinton, “ImageNet Classification with Deep Convolutional Neural Networks,” Communications of the ACM, vol. 60, no. 6, pp. 84–90, 2017.
+
+\bibitem{b4}
+M. M. Taye, “Theoretical Understanding of Convolutional Neural Network: Concepts, Architectures, Applications, Future Directions,” Computation, vol. 11, no. 3, 2023.
+
+\bibitem{b5}
+Y. LeCun, L. Bottou, Y. Bengio, and P. Haffner, “Gradient-Based Learning Applied to Document Recognition,” Proceedings of the IEEE, vol. 86, no. 11, pp. 2278–2324, 1998.
+
+\bibitem{b6}
+A. Mumuni and F. Mumuni, “Data augmentation: A comprehensive survey of modern approaches,” Array, vol. 16, Art. no. 100258, 2022.
+
+\bibitem{b7}
+K. He, X. Zhang, S. Ren, and J. Sun, “Deep Residual Learning for Image Recognition,” in Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition, 2016, pp. 770–778.
+
+\bibitem{b8}
+R. Pascanu, C. Gulcehre, K. Cho, and Y. Bengio, “How to Construct Deep Recurrent Neural Networks,” arXiv preprint arXiv:1312.6026, 2013.
+
+\bibitem{b9}
+S. Hochreiter and J. Schmidhuber, “Long Short-Term Memory,” Neural Computation, vol. 9, no. 8, pp. 1735–1780, 1997.
+
+\bibitem{b10}
+APPROF Practical Work Statement, “Deep Learning Practical Work - Informatics Engineering Master, Data Engineering, 2025/2026,” Instituto Superior de Engenharia do Porto, 2026.
+
+\bibitem{b11}
+Mihai Oltean, Fruits-360 dataset, 2017-.
+
+\bibitem{b12}
+Tensorflow website, \url{https://www.tensorflow.org/}
+
+\end{thebibliography}
+
+\end{document}
