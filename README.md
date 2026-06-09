@@ -1,4 +1,4 @@
-# APPROF_ADF_M1B_1200742_1201118
+# APPROF_ADF_M1B_1200742_1201118_1250522
 
 The project focuses on developing, training, evaluating, and comparing Deep Learning models using Python. It includes two main tasks: image classification using Convolutional Neural Networks and time series forecasting using Recurrent Neural Networks.
 
